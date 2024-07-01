@@ -20,14 +20,14 @@ const App = () => {
   
   
   return(
-    <div className=" p-8 rounded-xl shadow-lg bg-black">
+    <div className=" p-8 rounded-xl shadow-lg bg-black w-[625px] text-center">
       <h2>English Booster</h2>
-      <nav className="flex my-2">
+      <nav className="flex my-2 items-center justify-center">
         <span className={`${selected == "Nova" ? "text-purple-500 font-bold bg-purple-200 rounded-lg py-1 px-2" : "text-white"} hover:cursor-pointer py-1 px-2`} onClick={() => setSelected("Nova")}>Nova</span>
         <span className={`${selected == "Editar" ? "text-purple-500 font-bold bg-purple-200 rounded-lg py-1 px-2" : "text-white"} hover:cursor-pointer py-1 px-2`} onClick={() => setSelected("Editar")}>Editar</span>
         <span className={`${selected == "Praticar" ? "text-purple-500 font-bold bg-purple-200 rounded-lg py-1 px-2" : "text-white"} hover:cursor-pointer py-1 px-2`} onClick={() => setSelected("Praticar")}>Praticar</span>
       </nav>
-
+      
         {component}
     </div>
   )

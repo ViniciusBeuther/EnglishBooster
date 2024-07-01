@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabase";
+import { Spinner } from "@nextui-org/react";
+import WrongModal from "./WrongModal";
 
 interface Word {
     id: number,
@@ -15,6 +17,7 @@ const Questionary:React.FC = () => {
         english_word: "",
         portuguese_meaning: "",
     });
+    const [answerValue, setAnswerValue] = useState("");
     
     const randomizeWord = ( wordList:Word[] ) => {
         //ev.preventDefault();
@@ -22,6 +25,20 @@ const Questionary:React.FC = () => {
         console.log(wordList[randomIndex])
         setSelectedWord(wordList[randomIndex])
         return wordList[randomIndex];
+    }
+
+    const checkAnswer = ( ev:any ) => {
+        ev.preventDefault();
+        if ( answerValue.toLowerCase() == selectedWord.portuguese_meaning.toLowerCase() ){
+            alert("Voce Acertou!");
+            setAnswerValue("");
+            randomizeWord(data);
+            <WrongModal />
+        } else {
+            alert("Você errou!");
+            setAnswerValue("");
+            randomizeWord(data);
+        }
     }
 
     useEffect(() => {
@@ -48,11 +65,22 @@ const Questionary:React.FC = () => {
     return(
         <>
         { data && data.length > 0 ? (
-            <>
-                <p>{ selectedWord.english_word }</p>
-            </>
+            <div>
+                <p className="text-5xl text-center text-purple-500 font-extrabold">{ selectedWord.english_word }</p>
+                <div className="flex flex-col mt-5 gap-5">
+                    <label htmlFor="answer" className="text-left">Qual é o significado?</label>
+                    <input type="text" name="answer_input" value={answerValue} onChange={(ev) => setAnswerValue(ev.target.value)} id="answer_input" className="py-2 px-4 rounded-lg" />
+                    
+                    <div className="flex w-full gap-5">
+                        <button className="bg-purple-500 w-full hover:border-purple-700 hover:bg-purple-600" onClick={(ev:any) => checkAnswer(ev)}>Verificar</button>
+                        <button className="bg-orange-500 w-full hover:border-orange-700 hover:bg-orange-600" onClick={(ev:any) => randomizeWord(data)}>Outra</button>
+                    </div>
+                </div>
+            </div>
         ) : (
-            <p>The question will display here....</p>
+            <div className="flex items-center justify-center">
+                <Spinner size="lg" color="secondary" />
+            </div>
         )}
         </>
     )

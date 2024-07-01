@@ -37,7 +37,7 @@ const WordForm = () => {
   return (
     <form action="submit" onSubmit={(ev:any) => handleSubmit(ev)}>
       <section className="flex flex-col mt-2">
-        <label htmlFor="wordform__newWord">Palavra: </label>
+        <label htmlFor="wordform__newWord" className="text-left">Palavra: </label>
         <input
           type="text"
           name="newWord"
@@ -48,7 +48,7 @@ const WordForm = () => {
         />
       </section>
       <section className="flex flex-col my-2">
-        <label htmlFor="wordform__newWord">Significado: </label>
+        <label htmlFor="wordform__newWord" className="text-left">Significado: </label>
         <input
           type="text"
           name="meaning"
