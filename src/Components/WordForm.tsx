@@ -44,7 +44,7 @@ const WordForm = () => {
           id="wordform__newWord"
           value={word}
           onChange={(ev:any) => setWord(ev.target.value)}
-          className="bg-black py-1 px-2 border-purple-300 border-2 rounded-md"
+          className="bg-black py-2 px-4 border-purple-300 border-2 rounded-md"
         />
       </section>
       <section className="flex flex-col my-2">
@@ -55,7 +55,7 @@ const WordForm = () => {
           id="wordform__meaning"
           value={meaning}
           onChange={(ev:any) => setMeaning(ev.target.value)}
-          className="bg-black py-1 px-2 border-purple-300 border-2 rounded-md"
+          className="bg-black py-2 px-4 border-purple-300 border-2 rounded-md"
         />
       </section>
 

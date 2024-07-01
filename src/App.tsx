@@ -20,12 +20,12 @@ const App = () => {
   
   
   return(
-    <div className="border p-5">
+    <div className=" p-8 rounded-xl shadow-lg bg-black">
       <h2>English Booster</h2>
       <nav className="flex my-2">
-        <span className={`${selected == "Nova" ? "text-purple-500 font-bold bg-purple-200" : "text-white"} hover:cursor-pointer py-1 px-2`} onClick={() => setSelected("Nova")}>Nova</span>
-        <span className={`${selected == "Editar" ? "text-purple-500 font-bold bg-purple-200" : "text-white"} hover:cursor-pointer py-1 px-2`} onClick={() => setSelected("Editar")}>Editar</span>
-        <span className={`${selected == "Praticar" ? "text-purple-500 font-bold bg-purple-200" : "text-white"} hover:cursor-pointer py-1 px-2`} onClick={() => setSelected("Praticar")}>Praticar</span>
+        <span className={`${selected == "Nova" ? "text-purple-500 font-bold bg-purple-200 rounded-lg py-1 px-2" : "text-white"} hover:cursor-pointer py-1 px-2`} onClick={() => setSelected("Nova")}>Nova</span>
+        <span className={`${selected == "Editar" ? "text-purple-500 font-bold bg-purple-200 rounded-lg py-1 px-2" : "text-white"} hover:cursor-pointer py-1 px-2`} onClick={() => setSelected("Editar")}>Editar</span>
+        <span className={`${selected == "Praticar" ? "text-purple-500 font-bold bg-purple-200 rounded-lg py-1 px-2" : "text-white"} hover:cursor-pointer py-1 px-2`} onClick={() => setSelected("Praticar")}>Praticar</span>
       </nav>
 
         {component}

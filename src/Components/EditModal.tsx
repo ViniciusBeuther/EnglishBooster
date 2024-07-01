@@ -52,7 +52,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, word, onSave }) 
         <div className="flex justify-end">
           <button
             onClick={onClose}
-            className="bg-red-500 text-white px-4 py-2 rounded-sm mr-2 hover:border-none border-none"
+            className="bg-red-500 text-white px-4 py-2 rounded-lg mr-2 hover:border-none border-none"
           >
             Cancelar
           </button>
