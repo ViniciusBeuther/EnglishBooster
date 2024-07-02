@@ -2,13 +2,13 @@ import { useState } from "react";
 import Button from "./Button";
 import Questionary from "./Questionary";
 
-
 const Practice:React.FC = () => {
-    const [data, setData] = useState<Word[]>([]);
     const [selectedComponent, setSelectedComponent] = useState("start");
 
     const handleStart = (ev:any) => {
-        alert("Começou");
+        // alert("Começou");
+
+          
         ev.preventDefault();
         setSelectedComponent("");
     }
@@ -16,9 +16,9 @@ const Practice:React.FC = () => {
     return(
         <>
             {selectedComponent === "start" ? (
-                <div className="border gap-5">
+                <div className="mt-5 gap-5 flex flex-col items-center justify-center">
                     <p>Clique em começar para iniciar</p>
-                    <button color="danger" onClick={(ev:any) => handleStart(ev)}>
+                    <button className="bg-purple-500 w-[50%] hover:bg-purple-600 hover:border-purple-700 shadow-lg" onClick={(ev:any) => handleStart(ev)}>
                         Começar
                     </button>
                 </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabase";
 import { Spinner } from "@nextui-org/react";
-import WrongModal from "./WrongModal";
+import Swal from "sweetalert2"
 
 interface Word {
     id: number,
@@ -19,6 +19,7 @@ const Questionary:React.FC = () => {
     });
     const [answerValue, setAnswerValue] = useState("");
     
+    // Function to randomize one word from the database list
     const randomizeWord = ( wordList:Word[] ) => {
         //ev.preventDefault();
         let randomIndex = Math.floor( Math.random() * wordList.length );
@@ -27,25 +28,65 @@ const Questionary:React.FC = () => {
         return wordList[randomIndex];
     }
 
+    // Function to check the answer
     const checkAnswer = ( ev:any ) => {
         ev.preventDefault();
-        
-        if ( answerValue.toLowerCase() == selectedWord.portuguese_meaning.toLowerCase() ){
-            alert("Voce Acertou!");
+        const splittedWord:string[] = selectedWord.portuguese_meaning.split(',');
+        let foundFlag:Boolean = false;
+
+        splittedWord.forEach((word) => {
+            if( word.toLowerCase() == selectedWord.portuguese_meaning ){
+                foundFlag = true;
+            }
+        })
+        if ( !foundFlag ){
+            // alert("Voce Acertou!");
+            // Error modal
+            Swal.fire({
+                icon: "success",
+                title: "Voce Acertou!",
+                text: `Resposta correta: ${selectedWord.portuguese_meaning}`,
+                footer: `Você digitou: ${answerValue}`,
+                timer: 1000 * 10,
+                background: "#0A0A0A",
+                color: "#a855f7",
+                customClass: {
+                    confirmButton: 'swal2-confirm',
+                },
+                buttonsStyling: false,
+            });
+
             setAnswerValue("");
             randomizeWord(data);
-            <WrongModal />
+
         } else {
-            alert("Você errou!");
+            // alert("Você errou!");
+            // Error modal
+            Swal.fire({
+                icon: "error",
+                title: "Voce errou...",
+                text: `Resposta correta: ${selectedWord.portuguese_meaning}`,
+                footer: `Você digitou: ${answerValue}`,
+                timer: 1000 * 10,
+                background: "#0A0A0A",
+                color: "#a855f7",
+                customClass: {
+                    confirmButton: 'swal2-confirm',
+                },
+                buttonsStyling: false,
+            });
+            
             setAnswerValue("");
             randomizeWord(data);
         }
     }
 
+    // Handle enter
     const handleKeyDown = (ev:React.KeyboardEvent<HTMLInputElement>) => {
         ev.key == "Enter" ? checkAnswer(ev) : null;
     }
 
+    // Fetch Data from Supabase
     useEffect(() => {
         async function fetchData() {
           try {

@@ -55,7 +55,7 @@ const WordForm = () => {
           id="wordform__meaning"
           value={meaning}
           onChange={(ev:any) => setMeaning(ev.target.value)}
-          className="bg-black py-2 px-4 border-purple-300 border-2 rounded-md"
+          className="bg-black py-2 px-4 border-purple-300 border-2 rounded-md mb-5"
         />
       </section>
 
