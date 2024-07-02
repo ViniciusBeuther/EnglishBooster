@@ -25,7 +25,7 @@ const WordForm = () => {
         console.log("Data inserted successfully:", data);
       }
     }
-    
+  
     function handleSubmit(ev:any){
         ev.preventDefault()
         insertInDatabase( word, meaning );
