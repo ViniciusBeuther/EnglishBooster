@@ -1,14 +1,10 @@
 import { useState } from "react";
-import Button from "./Button";
 import Questionary from "./Questionary";
 
 const Practice:React.FC = () => {
     const [selectedComponent, setSelectedComponent] = useState("start");
 
     const handleStart = (ev:any) => {
-        // alert("Começou");
-
-          
         ev.preventDefault();
         setSelectedComponent("");
     }

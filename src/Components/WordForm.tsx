@@ -3,8 +3,6 @@ import Button from "./Button";
 import { supabase } from "../supabase/supabase";
 
 
-
-
 const WordForm = () => {
     const [word, setWord] = useState("");
     const [meaning, setMeaning] = useState("");

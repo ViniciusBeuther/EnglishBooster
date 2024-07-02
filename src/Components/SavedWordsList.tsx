@@ -103,8 +103,8 @@ const SavedWordsList = () => {
     }
   };
 
-  const handleClose = (ev: any) => {
-    ev.preventDefault();
+  const handleClose = () => {
+    //ev.preventDefault();
     setIsOpen(false);
     setSelectedWord(null);
 };
@@ -156,7 +156,7 @@ const SavedWordsList = () => {
       )}
       <EditModal
         isOpen={isOpen}
-        onClose={(ev:any) => handleClose(ev)}
+        onClose={handleClose}
         word={selectedWord}
         onSave={handleSave}
       />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from './Button';
 
 interface EditModalProps {
@@ -11,6 +11,13 @@ interface EditModalProps {
 const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, word, onSave }) => {
   const [englishWord, setEnglishWord] = useState(word?.english_word || '');
   const [portugueseMeaning, setPortugueseMeaning] = useState(word?.portuguese_meaning || '');
+
+  useEffect(() => {
+    if (word) {
+      setEnglishWord(word.english_word);
+      setPortugueseMeaning(word.portuguese_meaning);
+    }
+  }, [word]);
 
   const handleSave = () => {
     if (word) {

@@ -19,29 +19,27 @@ const Questionary:React.FC = () => {
     });
     const [answerValue, setAnswerValue] = useState("");
     
+
     // Function to randomize one word from the database list
     const randomizeWord = ( wordList:Word[] ) => {
         //ev.preventDefault();
         let randomIndex = Math.floor( Math.random() * wordList.length );
-        console.log(wordList[randomIndex])
         setSelectedWord(wordList[randomIndex])
         return wordList[randomIndex];
     }
 
+
     // Function to check the answer
-    const checkAnswer = ( ev:any ) => {
+    const checkAnswer = ( ev:React.FormEvent<HTMLFormElement> ) => {
         ev.preventDefault();
         const splittedWord:string[] = selectedWord.portuguese_meaning.split(',');
-        let foundFlag:Boolean = false;
 
-        splittedWord.forEach((word) => {
-            if( word.toLowerCase() == selectedWord.portuguese_meaning ){
-                foundFlag = true;
-            }
+        let foundFlag = splittedWord.some(( word ) => {
+            return answerValue.toLocaleLowerCase() == word.trim().toLowerCase();
         })
-        if ( !foundFlag ){
-            // alert("Voce Acertou!");
-            // Error modal
+        
+        if ( foundFlag ){
+        // Error modal
             Swal.fire({
                 icon: "success",
                 title: "Voce Acertou!",
@@ -55,12 +53,8 @@ const Questionary:React.FC = () => {
                 },
                 buttonsStyling: false,
             });
-
-            setAnswerValue("");
-            randomizeWord(data);
-
+            
         } else {
-            // alert("Você errou!");
             // Error modal
             Swal.fire({
                 icon: "error",
@@ -75,11 +69,12 @@ const Questionary:React.FC = () => {
                 },
                 buttonsStyling: false,
             });
-            
-            setAnswerValue("");
-            randomizeWord(data);
         }
+
+        setAnswerValue("");
+        randomizeWord(data);
     }
+    
 
     // Handle enter
     const handleKeyDown = (ev:React.KeyboardEvent<HTMLInputElement>) => {
@@ -105,9 +100,8 @@ const Questionary:React.FC = () => {
     
         fetchData();
       }, []);
-      //console.log(data)
 
-
+      
     return(
         <>
         { data && data.length > 0 ? (
