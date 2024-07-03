@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabase";
-import { Table, TableColumn, TableHeader, TableBody, TableRow, TableCell, Spinner, table } from "@nextui-org/react";
-import EditModal from "./EditModal";
+import { Table, TableColumn, TableHeader, TableBody, TableRow, TableCell, Spinner } from "@nextui-org/react";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import editIcon from "/edit.svg";
+import "../styles/customSwal.css"
 
 interface EnglishBooster {
   id: number;
@@ -15,10 +17,12 @@ interface TableColumnsTypes {
   label: string;
 }
 
+const MySwal = withReactContent(Swal);
+
 const handleRemove = async (
   ev: any,
-  wordId: Number,
-  setData: any,
+  wordId: number,
+  setData: (data: EnglishBooster[]) => void,
   data: EnglishBooster[]
 ) => {
   ev.preventDefault();
@@ -27,16 +31,17 @@ const handleRemove = async (
     const { error } = await supabase
       .from("englishBooster")
       .delete()
-      .eq("id", `${wordId}`);
+      .eq("id", wordId);
+    if (error) throw error;
     setData(data.filter((word) => word.id !== wordId));
   } catch (error) {
-    return console.log("error");
+    console.log("error", error);
   }
 };
 
 const SavedWordsList = () => {
   const [data, setData] = useState<EnglishBooster[]>([]);
-  const [tableColumns, setTableColumns] = useState<TableColumnsTypes[]>([
+  const [tableColumns] = useState<TableColumnsTypes[]>([
     {
       key: "id",
       label: "ID",
@@ -58,10 +63,6 @@ const SavedWordsList = () => {
       label: "Excluir",
     },
   ]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedWord, setSelectedWord] = useState<EnglishBooster | null>(
-    null
-  );
 
   useEffect(() => {
     async function fetchData() {
@@ -82,15 +83,52 @@ const SavedWordsList = () => {
   }, []);
 
   const handleEdit = (word: EnglishBooster) => {
-    setSelectedWord(word);
-    setIsOpen(true);
+    MySwal.fire({
+      title: 'Editar Palavra',
+      html: `
+        <label class="modal__label">Palavra em Inglês</label>
+        <input type="text" id="english_word" class="swal2-input modal__input" value="${word.english_word}" />
+        <br>
+        <label class="modal__label">Significado em Português</label>
+        <input type="text" id="portuguese_meaning" class="swal2-input modal__input" value="${word.portuguese_meaning}" />
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Salvar',
+      cancelButtonText: 'Cancelar',
+      customClass: {
+        container: 'custom-swal-container',
+        popup: 'custom-swal-popup',
+        title: 'custom-swal-title',
+        closeButton: 'custom-swal-close-button',
+        icon: 'custom-swal-icon',
+        image: 'custom-swal-image',
+        input: 'custom-swal-input',
+        actions: 'custom-swal-actions',
+        confirmButton: 'custom-swal-confirm-button',
+        cancelButton: 'custom-swal-cancel-button',
+        footer: 'custom-swal-footer'
+      },
+      preConfirm: () => {
+        const englishWord = (document.getElementById('english_word') as HTMLInputElement).value;
+        const portugueseMeaning = (document.getElementById('portuguese_meaning') as HTMLInputElement).value;
+        return { ...word, english_word: englishWord, portuguese_meaning: portugueseMeaning };
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleSave(result.value);
+      }
+    });
+    
   };
 
   const handleSave = async (updatedWord: EnglishBooster) => {
     try {
       const { error } = await supabase
         .from("englishBooster")
-        .update(updatedWord)
+        .update({
+          english_word: updatedWord.english_word,
+          portuguese_meaning: updatedWord.portuguese_meaning
+        })
         .eq("id", updatedWord.id);
 
       if (error) throw error;
@@ -98,16 +136,12 @@ const SavedWordsList = () => {
       setData(
         data.map((word) => (word.id === updatedWord.id ? updatedWord : word))
       );
+      MySwal.fire('Salvo!', 'A palavra foi atualizada com sucesso.', 'success');
     } catch (error) {
+      MySwal.fire('Erro!', 'Ocorreu um erro ao atualizar a palavra.', 'error');
       console.log("Um erro ocorreu...", error);
     }
   };
-
-  const handleClose = () => {
-    //ev.preventDefault();
-    setIsOpen(false);
-    setSelectedWord(null);
-};
 
   return (
     <>
@@ -140,9 +174,7 @@ const SavedWordsList = () => {
                   <button
                     aria-label={`Remover a palavra ${word.english_word}`}
                     className="bg-red-400 hover:border-red-500"
-                    onClick={(ev) =>
-                      handleRemove(ev, word.id, setData, data)
-                    }
+                    onClick={(ev) => handleRemove(ev, word.id, setData, data)}
                   >
                     X
                   </button>
@@ -154,12 +186,6 @@ const SavedWordsList = () => {
       ) : (
         <Spinner size="md" color="secondary" />
       )}
-      <EditModal
-        isOpen={isOpen}
-        onClose={handleClose}
-        word={selectedWord}
-        onSave={handleSave}
-      />
     </>
   );
 };

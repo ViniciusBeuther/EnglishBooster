@@ -6,9 +6,10 @@ interface EditModalProps {
   onClose: () => void;
   word: EnglishBooster | null;
   onSave: (updatedWord: EnglishBooster) => void;
+  setIsOpen: any;
 }
 
-const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, word, onSave }) => {
+const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, word, onSave, setIsOpen }) => {
   const [englishWord, setEnglishWord] = useState(word?.english_word || '');
   const [portugueseMeaning, setPortugueseMeaning] = useState(word?.portuguese_meaning || '');
 
@@ -19,6 +20,10 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, word, onSave }) 
     }
   }, [word]);
 
+  const handleClose = () => {
+    setIsOpen(false);
+  }
+
   const handleSave = () => {
     if (word) {
       onSave({
@@ -26,7 +31,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, word, onSave }) 
         english_word: englishWord,
         portuguese_meaning: portugueseMeaning,
       });
-      onClose();
+      handleClose();
     }
   };
 
