@@ -2,6 +2,7 @@ import { useState } from "react";
 import WordForm from "./Components/WordForm";
 import SavedWordsList from "./Components/SavedWordsList";
 import Practice from "./Components/Practice";
+import Rocket from "../public/rocket.svg"
 
 const App = () => {
   const [selected, setSelected] = useState("Nova");
@@ -17,13 +18,17 @@ const App = () => {
 
   return (
     <div className=" p-8 rounded-xl shadow-lg bg-black w-[350px] md:w-[450px] lg:w-[625px] text-center">
-      <h2
-        className={`${
-          selected == "Praticar" ? "hidden" : "block"
-        } md:block lg:block`}
-      >
-        English Booster
-      </h2>
+      <div className="flex gap-1 items-center justify-center">
+        <h2
+          className={`${
+            selected == "Praticar" ? "hidden" : "block"
+          } md:block lg:block`}
+        >
+          English Booster
+          
+        </h2>
+        <img src={Rocket} width={32} height={32} alt="rocket-logo" />
+      </div>
       <nav className="flex my-2 items-center justify-center">
         <span
           className={`${

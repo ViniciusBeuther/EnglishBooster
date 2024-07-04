@@ -30,8 +30,8 @@ const Questionary:React.FC = () => {
 
 
     // Function to check the answer
-    const checkAnswer = ( ev:React.FormEvent<HTMLFormElement> ) => {
-        ev.preventDefault();
+    const checkAnswer = (  ) => {
+        
         const splittedWord:string[] = selectedWord.portuguese_meaning.split(',');
 
         let foundFlag = splittedWord.some(( word ) => {
@@ -78,7 +78,7 @@ const Questionary:React.FC = () => {
 
     // Handle enter
     const handleKeyDown = (ev:React.KeyboardEvent<HTMLInputElement>) => {
-        ev.key == "Enter" ? checkAnswer(ev) : null;
+        ev.key == "Enter" ? checkAnswer() : null;
     }
 
     // Fetch Data from Supabase
@@ -86,7 +86,7 @@ const Questionary:React.FC = () => {
         async function fetchData() {
           try {
             let { data, error } = await supabase
-              .from<Word>("englishBooster")
+              .from<any, any>("englishBooster")
               .select("*");
     
             if (error) throw error;
@@ -101,7 +101,7 @@ const Questionary:React.FC = () => {
         fetchData();
       }, []);
 
-      
+
     return(
         <>
         { data && data.length > 0 ? (
@@ -112,8 +112,8 @@ const Questionary:React.FC = () => {
                     <input type="text" name="answer_input" value={answerValue} onChange={(ev) => setAnswerValue(ev.target.value)} onKeyDown={(ev) => handleKeyDown(ev)} id="answer_input" className="py-2 px-4 rounded-lg" />
                     
                     <div className="flex w-full gap-5">
-                        <button className="bg-purple-500 w-full hover:border-purple-700 hover:bg-purple-600" onClick={(ev:any) => checkAnswer(ev)} onKeyDown={(ev:any) => checkAnswer(ev)} >Verificar</button>
-                        <button className="bg-orange-500 w-full hover:border-orange-700 hover:bg-orange-600" onClick={(ev:any) => randomizeWord(data)}>Outra</button>
+                        <button className="bg-purple-500 w-full hover:border-purple-700 hover:bg-purple-600" onClick={() => checkAnswer()} onKeyDown={() => checkAnswer()} >Verificar</button>
+                        <button className="bg-orange-500 w-full hover:border-orange-700 hover:bg-orange-600" onClick={() => randomizeWord(data)}>Outra</button>
                     </div>
                 </div>
             </div>

@@ -1,10 +1,11 @@
+// src/Components/SavedWordsList.tsx
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase/supabase";
-import { Table, TableColumn, TableHeader, TableBody, TableRow, TableCell, Spinner } from "@nextui-org/react";
+import { Table, TableColumn, TableHeader, TableBody, TableRow, TableCell, Spinner, Button } from "@nextui-org/react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import editIcon from "/edit.svg";
-import "../styles/customSwal.css"
+import "../styles/customSwal.css";
 
 interface EnglishBooster {
   id: number;
@@ -29,7 +30,7 @@ const handleRemove = async (
 
   try {
     const { error } = await supabase
-      .from("englishBooster")
+      .from<any,any>("englishBooster")
       .delete()
       .eq("id", wordId);
     if (error) throw error;
@@ -63,17 +64,18 @@ const SavedWordsList = () => {
       label: "Excluir",
     },
   ]);
+  const [visibleItems, setVisibleItems] = useState(10);
 
   useEffect(() => {
     async function fetchData() {
       try {
         let { data: englishBooster, error } = await supabase
-          .from<EnglishBooster>("englishBooster")
+          .from<any, any>("englishBooster")
           .select("*");
 
         if (error) throw error;
 
-        setData(englishBooster?.sort() || []);
+        setData(englishBooster || []);
       } catch (err) {
         console.log("Um erro ocorreu...", err);
       }
@@ -104,7 +106,7 @@ const SavedWordsList = () => {
         image: 'custom-swal-image',
         input: 'custom-swal-input',
         actions: 'custom-swal-actions',
-        confirmButton: 'custom-swal-confirm-button',
+        confirmButton: 'custom-swal-confirm-button btn-confirm',
         cancelButton: 'custom-swal-cancel-button',
         footer: 'custom-swal-footer'
       },
@@ -118,7 +120,6 @@ const SavedWordsList = () => {
         handleSave(result.value);
       }
     });
-    
   };
 
   const handleSave = async (updatedWord: EnglishBooster) => {
@@ -136,53 +137,71 @@ const SavedWordsList = () => {
       setData(
         data.map((word) => (word.id === updatedWord.id ? updatedWord : word))
       );
-      MySwal.fire('Salvo!', 'A palavra foi atualizada com sucesso.', 'success');
+      MySwal.fire({
+        title: 'Salvo!',
+        text: 'A palavra foi atualizada com sucesso.',
+        icon: 'success',
+        customClass: {
+          popup: 'custom-swal-success-popup'
+        }
+      });
     } catch (error) {
       MySwal.fire('Erro!', 'Ocorreu um erro ao atualizar a palavra.', 'error');
       console.log("Um erro ocorreu...", error);
     }
   };
 
+  const loadMore = () => {
+    setVisibleItems((prevVisibleItems) => prevVisibleItems + 10);
+  };
+
   return (
     <>
       <p>Palavras Salvas:</p>
       {data && data.length > 0 ? (
-        <Table className="dark" aria-label="Tabela de palavras salvas">
-          <TableHeader>
-            {tableColumns.map((column) => (
-              <TableColumn key={column.key}>{column.label}</TableColumn>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {data.map((word) => (
-              <TableRow key={word.id}>
-                <TableCell>{word.id}</TableCell>
-                <TableCell>{word.english_word}</TableCell>
-                <TableCell>{word.portuguese_meaning}</TableCell>
-                <TableCell>
-                  <button onClick={() => handleEdit(word)}>
-                    <img
-                      src={editIcon}
-                      className="text-white"
-                      alt="edit_icon"
-                      width={24}
-                      height={24}
-                    />
-                  </button>
-                </TableCell>
-                <TableCell>
-                  <button
-                    aria-label={`Remover a palavra ${word.english_word}`}
-                    className="bg-red-400 hover:border-red-500"
-                    onClick={(ev) => handleRemove(ev, word.id, setData, data)}
-                  >
-                    X
-                  </button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <>
+          <Table className="dark" aria-label="Tabela de palavras salvas">
+            <TableHeader>
+              {tableColumns.map((column) => (
+                <TableColumn key={column.key}>{column.label}</TableColumn>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {data.slice(0, visibleItems).map((word) => (
+                <TableRow key={word.id}>
+                  <TableCell>{word.id}</TableCell>
+                  <TableCell>{word.english_word}</TableCell>
+                  <TableCell>{word.portuguese_meaning}</TableCell>
+                  <TableCell>
+                    <button onClick={() => handleEdit(word)}>
+                      <img
+                        src={editIcon}
+                        className="text-white"
+                        alt="edit_icon"
+                        width={24}
+                        height={24}
+                      />
+                    </button>
+                  </TableCell>
+                  <TableCell>
+                    <button
+                      aria-label={`Remover a palavra ${word.english_word}`}
+                      className="bg-red-400 hover:border-red-500"
+                      onClick={(ev) => handleRemove(ev, word.id, setData, data)}
+                    >
+                      X
+                    </button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          {visibleItems < data.length && (
+            <Button onClick={loadMore} className="mt-4">
+              Ver Mais
+            </Button>
+          )}
+        </>
       ) : (
         <Spinner size="md" color="secondary" />
       )}

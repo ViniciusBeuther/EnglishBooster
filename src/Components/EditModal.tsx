@@ -4,8 +4,8 @@ import Button from './Button';
 interface EditModalProps {
   isOpen: boolean;
   onClose: () => void;
-  word: EnglishBooster | null;
-  onSave: (updatedWord: EnglishBooster) => void;
+  word: any | any;
+  onSave: (updatedWord: any) => void;
   setIsOpen: any;
 }
 

@@ -18,10 +18,7 @@
     background-color: #1a1a1a;
     color: white;
   }
-  
-  .custom-swal-header {
-    border-bottom: 1px solid #444;
-  }
+
   
   .custom-swal-title {
     font-size: 1.5em;
@@ -51,7 +48,7 @@
   }
   
   .custom-swal-confirm-button {
-    background-color: #3085d6;
+    background-color: #3085d6 !important;
     color: white;
   }
   
@@ -60,7 +57,12 @@
     color: white;
   }
   
-  .custom-swal-footer {
-    border-top: 1px solid #444;
+  .custom-swal-success-popup{
+    background-color: #333;
+    color: white;
   }
   
+  .swal2-confirm
+{
+    background-color: green;
+}
