@@ -109,7 +109,7 @@ const Questionary:React.FC = () => {
                 <p className="text-4xl md:text-5xl lg:text-5xl text-center text-purple-500 font-extrabold">{ selectedWord.english_word }</p>
                 <div className="flex flex-col mt-5 gap-5">
                     <label htmlFor="answer" className="text-left">Qual é o significado?</label>
-                    <input type="text" name="answer_input" value={answerValue} onChange={(ev) => setAnswerValue(ev.target.value)} onKeyDown={(ev) => handleKeyDown(ev)} id="answer_input" className="py-2 px-4 rounded-lg" />
+                    <input type="text" name="answer_input" value={answerValue} onChange={(ev) => setAnswerValue(ev.target.value)} onKeyDown={(ev) => handleKeyDown(ev)} id="answer_input" className="py-2 px-4 rounded-lg border-1-purple" />
                     
                     <div className="flex w-full gap-5">
                         <button className="bg-purple-500 w-full hover:border-purple-700 hover:bg-purple-600" onClick={() => checkAnswer()} onKeyDown={() => checkAnswer()} >Verificar</button>
