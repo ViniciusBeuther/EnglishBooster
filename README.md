@@ -1,30 +1,20 @@
-# React + TypeScript + Vite
+# EnglishBooster Web Application 📘✨
+## Project Description 📜
+This repository hosts the development of EnglishBooster, a web application designed to enhance English vocabulary learning efficiently. Users can manage their vocabulary by adding, removing, and editing words, with additional features available on desktop for advanced editing capabilities. The application also includes interactive quizzes where users can test their knowledge by translating randomly selected English words into Portuguese, with instant feedback provided through modal pop-ups.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Main Features ✨
+* **Vocabulary Management:** Add, remove, and edit words (desktop only).
+* **Interactive Quizzes:** Test knowledg by translating English words to Portuguesee.
+* **Real-time Feedback:** Instant feedback on quiz answers with modal displays.
+* **Responsive Design:** Ensures usability across various devices.
 
-Currently, two official plugins are available:
+## Technologies Used 🔧
+* **TypeScript & React.js:** Frontend development for robust and type-safe code.
+* **TailwindCSS:** Efficient and responsive styling for a sleek user interface.
+* **Supabase:** Real-time database for seamless data management and synchronization.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Contribution 🤝
+This project was independently developed to address personal needs in language learning and self-improvement.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## License 📄
+This project is licensed under the MIT License - see the LICENSE file for details.
